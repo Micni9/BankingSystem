@@ -6,6 +6,21 @@ public class UserDaoImpl implements UserDao{
     private Connection conn;
     public UserDaoImpl(){
         this.conn = Conn.getInstance();
+        createTable();
+    }
+
+    public void createTable(){
+        String sql = "CREATE TABLE IF NOT EXISTS users (\n"
+                + "id INTEGER PRIMARY KEY AUTOINCREMENT,\n"
+                + "username TEXT NOT NULL,\n"
+                + "password TEXT NOT NULL,\n"
+                + "balance REAL DEFAULT 0\n"
+                + ");";
+        try(PreparedStatement pstmt = conn.prepareStatement(sql)){
+            pstmt.executeUpdate();
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
